@@ -55,6 +55,7 @@ namespace LabyrinthineCheat
             {
                 try
                 {
+                    PickupCosmeticInCase();
                     foreach (var item in objectives.Objectives)
                     {
                         MelonLogger.Msg($"Found {item.Key} and {item.Value}");
@@ -71,6 +72,11 @@ namespace LabyrinthineCheat
             {
                 MelonLogger.Msg("Found No Objectives");
             }
+        }
+
+        public static void PickupCosmeticInCase()
+        {
+            GameObject.FindObjectOfType<CustomizationPickup>()?.Pickup();
         }
 
         public static void SetAllItemsCount()
@@ -109,6 +115,37 @@ namespace LabyrinthineCheat
         {
             MelonLogger.Msg("Moved the player to Spawnpoint");
             Laby.PlayerControl.playerNetworkSync.MoveToSpawnpoint();
+        }
+
+        public static List<Vector3> GetAllSafezones()
+        {
+            List<Vector3> safezones = new List<Vector3>();
+
+            MelonLogger.Msg("Finding safezones...");
+            foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType<GameObject>())
+            {
+                if (obj.name.ToLower().Contains("lightzone"))
+                {
+                    MelonLogger.Warning($"Found Safezone: {obj.name}");
+                    MelonLogger.Msg($" - Position: {obj.transform.position}");
+
+                    Collider collider = obj.GetComponent<Collider>();
+                    if (collider != null)
+                    {
+                        Vector3 center = collider.bounds.center;
+                        MelonLogger.Msg($" - Collider Center: {center}");
+
+                        safezones.Add(new Vector3(center.x, center.y + 4f, center.z));
+                    }
+                    else
+                    {
+                        MelonLogger.Warning("No collider found for this object! Can't teleport");
+                    }
+
+                }
+            }
+
+            return safezones;
         }
 
         public static void ToggleESP()
