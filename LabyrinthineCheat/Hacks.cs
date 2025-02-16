@@ -9,6 +9,7 @@ using MelonLoader;
 using Il2Cpp;
 using Il2CppValkoGames.Labyrinthine.Cases.Objectives;
 using Il2CppObjectives;
+using Il2CppValkoGames.Labyrinthine.Store;
 
 namespace LabyrinthineCheat
 {
@@ -109,6 +110,18 @@ namespace LabyrinthineCheat
                     AIManager.StopAI(monsterType);
                 }
             }
+        }
+
+        public static void AddOrRemoveCurrency(int value)
+        {
+            MelonLogger.Msg($"{value} Currency has been {(value >= 0 ? "added" : "removed")}!");
+            CurrencyManager.AddCurrency(value, true);
+        }
+
+        public static void AddOrRemoveExperience(int value)
+        {
+            MelonLogger.Msg($"{value} Experience has been {(value >= 0 ? "added" : "removed")}!");
+            PlayerSave.AddExperience(value, true);
         }
 
         public static void TeleportToSpawn()

@@ -38,15 +38,19 @@ namespace LabyrinthineCheat
 
         public static List<Vector3> Safezones = new List<Vector3>();
 
-        private string xCoords = "0";
-        private string zCoords = "0";
-        private string yCoords = "0";
-
         public static Camera GameCamera { get; set; }
         public static GameManager GameManager { get; set; }
         public static PlayerControl PlayerControl { get; set; }
         public static AIController[] AIControllers { get; set; }
         public static KeyPuzzle KeyPuzzle { get; set; }
+
+        private string xCoords = "0";
+        private string zCoords = "0";
+        private string yCoords = "0";
+
+        private string currencyInput = "100";
+
+        private string experienceInput = "1000";
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
@@ -135,6 +139,23 @@ namespace LabyrinthineCheat
 
                 if (GUILayout.Button("Have all items x1000", buttonStyle))
                     Hacks.SetAllItemsCount();
+
+                GUILayout.BeginHorizontal();
+
+                currencyInput = Regex.Replace(GUILayout.TextField(currencyInput, 25), @"(?!^-)[^0-9]", "");
+
+                if (GUILayout.Button("Give Currency", buttonStyle))
+                    Hacks.AddOrRemoveCurrency(int.Parse(currencyInput));
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+
+                experienceInput = Regex.Replace(GUILayout.TextField(experienceInput, 25), @"(?!^-)[^0-9]", "");
+
+                if (GUILayout.Button("Give Experience", buttonStyle))
+                    Hacks.AddOrRemoveExperience(int.Parse(experienceInput));
+                GUILayout.EndHorizontal();
             }
             else
             {
