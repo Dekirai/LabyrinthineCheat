@@ -10,6 +10,9 @@ using Il2Cpp;
 using System.Collections;
 using System.Linq;
 using System.Threading;
+using static Il2CppMirror.SpatialHashingInterestManagement;
+using Il2CppSystem;
+using System.Text.RegularExpressions;
 
 namespace LabyrinthineCheat
 {
@@ -33,11 +36,21 @@ namespace LabyrinthineCheat
         public static int? CurrentSceneIndex;
         public static string? CurrentSceneName;
 
+        public static List<Vector3> Safezones = new List<Vector3>();
+
         public static Camera GameCamera { get; set; }
         public static GameManager GameManager { get; set; }
         public static PlayerControl PlayerControl { get; set; }
         public static AIController[] AIControllers { get; set; }
         public static KeyPuzzle KeyPuzzle { get; set; }
+
+        private string xCoords = "0";
+        private string zCoords = "0";
+        private string yCoords = "0";
+
+        private string currencyInput = "100";
+
+        private string experienceInput = "1000";
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
@@ -46,7 +59,7 @@ namespace LabyrinthineCheat
             CurrentSceneIndex = buildIndex;
             CurrentSceneName = sceneName;
 
-            if (buildIndex >= 4)
+            if (buildIndex >= 4 && buildIndex != 8)
             {
                 CanRunCoRoutine = false;
                 new Thread(() =>
@@ -57,6 +70,8 @@ namespace LabyrinthineCheat
                         Thread.Sleep(5000);
                     }
                 }).Start();
+
+                MelonCoroutines.Start(DelayedSafezoneCollection());
             }
         }
 
@@ -75,11 +90,11 @@ namespace LabyrinthineCheat
 
             if (showMenu)
             {
-                GUI.Window(0, windowRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMenu), "Labyrinthine Menu");
+                windowRect = GUI.Window(0, windowRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMenu), "Labyrinthine Menu");
                 if (CurrentSceneName.Contains("Rand") || CurrentSceneName.Contains("Zone"))
                 {
-                    GUI.Window(1, windowMonsterTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMonsterTeleportMenu), "Monster Teleport Menu");
-                    GUI.Window(2, windowPlayerTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawPlayerTeleportMenu), "Player Teleport Menu");
+                    windowMonsterTeleportRect = GUI.Window(1, windowMonsterTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMonsterTeleportMenu), "Monster Teleport Menu");
+                    windowPlayerTeleportRect = GUI.Window(2, windowPlayerTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawPlayerTeleportMenu), "Player Teleport Menu");
                 }
 
             }
@@ -124,12 +139,26 @@ namespace LabyrinthineCheat
 
                 if (GUILayout.Button("Have all items x1000", buttonStyle))
                     Hacks.SetAllItemsCount();
+
+                GUILayout.BeginHorizontal();
+
+                currencyInput = Regex.Replace(GUILayout.TextField(currencyInput, 25), @"(?!^-)[^0-9]", "");
+
+                if (GUILayout.Button("Give Currency", buttonStyle))
+                    Hacks.AddOrRemoveCurrency(int.Parse(currencyInput));
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+
+                experienceInput = Regex.Replace(GUILayout.TextField(experienceInput, 25), @"(?!^-)[^0-9]", "");
+
+                if (GUILayout.Button("Give Experience", buttonStyle))
+                    Hacks.AddOrRemoveExperience(int.Parse(experienceInput));
+                GUILayout.EndHorizontal();
             }
             else
             {
-                if (GUILayout.Button("Teleport to Spawnpoint", buttonStyle))
-                    Hacks.TeleportToSpawn();
-
                 if (GUILayout.Button("Complete Case", buttonStyle))
                     Hacks.CompleteAllObjectivesInCase();
 
@@ -205,6 +234,35 @@ namespace LabyrinthineCheat
                 normal = { textColor = Color.white }
             };
 
+            Vector3 playerPosition = PlayerControl.playerNetworkSync.transform.position;
+
+            GUILayout.Label($"Current Coords | X: {Mathf.RoundToInt(playerPosition.x)}, Y: {Mathf.RoundToInt(playerPosition.y)}, Z: {Mathf.RoundToInt(playerPosition.z)}");
+
+            GUILayout.BeginHorizontal();
+
+            xCoords = Regex.Replace(GUILayout.TextField(xCoords, 25), @"(?!^-)[^0-9]", "");
+            yCoords = Regex.Replace(GUILayout.TextField(yCoords, 25), @"(?!^-)[^0-9]", "");
+            zCoords = Regex.Replace(GUILayout.TextField(zCoords, 25), @"(?!^-)[^0-9]", "");
+            GUILayout.EndHorizontal();
+
+            if (GUILayout.Button($"Teleport To Coords", buttonStyle))
+            {
+                try
+                {
+                    PlayerControl.playerNetworkSync
+                        .MoveToPosition(new Vector3(int.Parse(xCoords), int.Parse(yCoords), int.Parse(zCoords)));
+                }
+                catch
+                {
+                    MelonLogger.Error("Couldn't teleport you to those coords");
+                }
+            }
+
+            if (GUILayout.Button("Teleport to Spawnpoint", buttonStyle))
+                Hacks.TeleportToSpawn();
+
+
+
             GUILayout.Space(10);
 
             GUILayout.Label("Player list", titleStyle);
@@ -222,6 +280,30 @@ namespace LabyrinthineCheat
 
                     PlayerControl.playerNetworkSync.MoveToTransform(player.transform);
                 }
+            }
+
+            GUILayout.Label("Safezone list", titleStyle);
+            if (Safezones != null && Safezones.Count > 0)
+            {
+                if (GUILayout.Button($"Teleport to Random Safezone", buttonStyle))
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, Safezones.Count);
+                    PlayerControl.playerNetworkSync.MoveToPosition(Safezones[randomIndex]);
+                }
+
+                int index = 1;
+                foreach (var item in Safezones)
+                {
+                    if (GUILayout.Button($"Safezone {index}", buttonStyle))
+                    {
+                        PlayerControl.playerNetworkSync.MoveToPosition(item);
+                    }
+                    index++;
+                }
+            }
+            else
+            {
+                GUILayout.Label($"Searching for safehouses...");
             }
 
             GUI.DragWindow();
@@ -256,6 +338,16 @@ namespace LabyrinthineCheat
 
             KeyPuzzle = GameObject.FindObjectOfType<KeyPuzzle>();
             yield return new WaitForSeconds(0.15f);
+        }
+
+        private IEnumerator DelayedSafezoneCollection()
+        {
+            Safezones.Clear();
+            MelonLogger.Msg($"Waiting 10 seconds before getting all safezones");
+            yield return new WaitForSeconds(10f);
+
+            Safezones.AddRange(Hacks.GetAllSafezones());
+            MelonLogger.Msg($"Found {Safezones?.Count} safe zones!");
         }
     }
 }
