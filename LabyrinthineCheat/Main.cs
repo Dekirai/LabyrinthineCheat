@@ -108,7 +108,7 @@ namespace LabyrinthineCheat
 
             GUIStyle sliderStyle = new GUIStyle(GUI.skin.horizontalSlider);
 
-            GUILayout.Label("                ~ Made by Dekirai ~", titleStyle);
+            GUILayout.Label(" ~ Made by Dekirai & GravityMaster ~", titleStyle);
             GUILayout.Space(10);
 
             if (CurrentSceneIndex == 2 || CurrentSceneIndex == 8)
@@ -211,7 +211,6 @@ namespace LabyrinthineCheat
 
             foreach (var player in GameManager.Players)
             {
-
                 if (GUILayout.Button(player.playerName, buttonStyle))
                 {
                     var transform = player.transform;
