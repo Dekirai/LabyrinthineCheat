@@ -3,15 +3,9 @@ using MelonLoader;
 using UnityEngine;
 using Il2CppCharacterCustomization;
 using HarmonyLib;
-using Il2CppValkoGames.Labyrinthine.Saves;
-using Il2CppValkoGames.Labyrinthine.Store;
 using Il2CppValkoGames.Labyrinthine.Monsters;
 using Il2Cpp;
 using System.Collections;
-using System.Linq;
-using System.Threading;
-using static Il2CppMirror.SpatialHashingInterestManagement;
-using Il2CppSystem;
 using System.Text.RegularExpressions;
 
 namespace LabyrinthineCheat
@@ -91,12 +85,11 @@ namespace LabyrinthineCheat
             if (showMenu)
             {
                 windowRect = GUILayout.Window(0, windowRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMenu), "Labyrinthine Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
-                if (CurrentSceneName.Contains("Rand") || CurrentSceneName.Contains("Zone"))
+                if ((CurrentSceneName.Contains("Rand") || CurrentSceneName.Contains("Zone")) && PlayerControl != null && AIControllers != null)
                 {
                     windowMonsterTeleportRect = GUILayout.Window(1, windowMonsterTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMonsterTeleportMenu), "Monster Teleport Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
                     windowPlayerTeleportRect = GUILayout.Window(2, windowPlayerTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawPlayerTeleportMenu), "Player Teleport Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
                 }
-
             }
 
             if (ESPEnabled)
@@ -194,12 +187,7 @@ namespace LabyrinthineCheat
                 normal = { textColor = Color.white }
             };
 
-            GUILayout.Space(10);
-
             GUILayout.Label("Monster list", titleStyle);
-
-            if (AIControllers == null)
-                return;
 
             foreach (var ai in AIControllers)
             {
@@ -236,9 +224,6 @@ namespace LabyrinthineCheat
                 fontStyle = FontStyle.Bold,
                 normal = { textColor = Color.white }
             };
-
-            if (PlayerControl == null)
-                return;
 
             Vector3 playerPosition = PlayerControl.playerNetworkSync.transform.position;
 
