@@ -90,11 +90,11 @@ namespace LabyrinthineCheat
 
             if (showMenu)
             {
-                windowRect = GUI.Window(0, windowRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMenu), "Labyrinthine Menu");
+                windowRect = GUILayout.Window(0, windowRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMenu), "Labyrinthine Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
                 if (CurrentSceneName.Contains("Rand") || CurrentSceneName.Contains("Zone"))
                 {
-                    windowMonsterTeleportRect = GUI.Window(1, windowMonsterTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMonsterTeleportMenu), "Monster Teleport Menu");
-                    windowPlayerTeleportRect = GUI.Window(2, windowPlayerTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawPlayerTeleportMenu), "Player Teleport Menu");
+                    windowMonsterTeleportRect = GUILayout.Window(1, windowMonsterTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMonsterTeleportMenu), "Monster Teleport Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
+                    windowPlayerTeleportRect = GUILayout.Window(2, windowPlayerTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawPlayerTeleportMenu), "Player Teleport Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
                 }
 
             }
