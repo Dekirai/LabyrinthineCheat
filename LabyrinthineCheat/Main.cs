@@ -198,6 +198,9 @@ namespace LabyrinthineCheat
 
             GUILayout.Label("Monster list", titleStyle);
 
+            if (AIControllers == null)
+                return;
+
             foreach (var ai in AIControllers)
             {
                 var normalizedMonsterName = ai.MonsterType.ToString().Replace("_", " ");
@@ -234,6 +237,9 @@ namespace LabyrinthineCheat
                 normal = { textColor = Color.white }
             };
 
+            if (PlayerControl == null)
+                return;
+
             Vector3 playerPosition = PlayerControl.playerNetworkSync.transform.position;
 
             GUILayout.Label($"Current Coords | X: {Mathf.RoundToInt(playerPosition.x)}, Y: {Mathf.RoundToInt(playerPosition.y)}, Z: {Mathf.RoundToInt(playerPosition.z)}");
@@ -260,8 +266,6 @@ namespace LabyrinthineCheat
 
             if (GUILayout.Button("Teleport to Spawnpoint", buttonStyle))
                 Hacks.TeleportToSpawn();
-
-
 
             GUILayout.Space(10);
 
