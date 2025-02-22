@@ -31,7 +31,7 @@ namespace LabyrinthineCheat
             foreach (var ai in Laby.AIControllers)
             {
                 if(ai != null && ai.transform != null)
-                    Drawing.TextWithDistance(ai.transform, ai.monsterType.ToString().Replace("_", " "));    
+                    Drawing.TextWithDistanceMonster(ai.transform, ai.monsterType.ToString().Replace("_", " "));    
             }
         }
     }

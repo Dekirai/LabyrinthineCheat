@@ -110,6 +110,7 @@ namespace LabyrinthineCheat
                 PlayerControl = GameObject.FindObjectOfType<PlayerControl>();
                 yield return new WaitForSeconds(0.5f);
             }
+
             MelonLogger.Msg("All required game objects collected!");
 
             PlayerInCase = true;

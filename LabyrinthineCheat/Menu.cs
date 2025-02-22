@@ -85,7 +85,7 @@ namespace LabyrinthineCheat
                     Hacks.AddOrRemoveExperience(int.Parse(experienceInput));
                 GUILayout.EndHorizontal();
             }
-            else if(Laby.PlayerInCase)
+            else if (Laby.PlayerInCase)
             {
                 if (GUILayout.Button("Complete Case", buttonStyle))
                     Hacks.CompleteAllObjectivesInCase();
@@ -108,7 +108,8 @@ namespace LabyrinthineCheat
                 {
                     Hacks.SetFlashlightPower(Laby.FlashlightMultiplier);
                 }
-            } else
+            }
+            else
             {
                 GUILayout.Label("Loading...");
             }
