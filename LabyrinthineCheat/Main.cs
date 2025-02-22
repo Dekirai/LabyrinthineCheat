@@ -46,6 +46,20 @@ namespace LabyrinthineCheat
 
         private string experienceInput = "1000";
 
+        public override void OnInitializeMelon()
+        {
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                MelonLogger.Error($"Unhandled Exception: {e.ExceptionObject}");
+            };
+
+            TaskScheduler.UnobservedTaskException += (sender, e) =>
+            {
+                MelonLogger.Error($"Unobserved Task Exception: {e.Exception}");
+                e.SetObserved();
+            };
+        }
+
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
             LoggerInstance.Msg($"Scene {sceneName} with build index {buildIndex} has been loaded!");
