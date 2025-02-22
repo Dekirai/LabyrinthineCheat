@@ -146,7 +146,7 @@ namespace LabyrinthineCheat
                         Vector3 center = collider.bounds.center;
                         MelonLogger.Msg($" - Collider Center: {center}");
 
-                        safezones.Add(new Vector3(center.x, center.y + 4f, center.z));
+                        safezones.Add(new Vector3(center.x, center.y, center.z));
                     }
                     else
                     {

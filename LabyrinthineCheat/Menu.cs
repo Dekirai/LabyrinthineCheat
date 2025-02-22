@@ -129,7 +129,7 @@ namespace LabyrinthineCheat
                     var transform = ai.transform;
                     transform.position = new Vector3(
                         transform.position.x,
-                        transform.position.y + 4f, // to fix some stuck/fall into the ground
+                        transform.position.y,
                         transform.position.z
                     );
 
@@ -179,7 +179,7 @@ namespace LabyrinthineCheat
                     var transform = player.transform;
                     transform.position = new Vector3(
                         transform.position.x,
-                        transform.position.y + 4f, // to fix some stuck/fall into the ground
+                        transform.position.y,
                         transform.position.z
                     );
 
