@@ -41,7 +41,11 @@ namespace Labyrinthine.Utilities
             {
                 float distanceToMonster = (float)Math.Round((double)Vector3.Distance(Laby.PlayerControl.transform.position, target.position), 1);
 
-                if (vector.z >= 0f && distanceToMonster < 1000f)
+                if (vector.z >= 0f && distanceToMonster < 100f)
+                {
+                    DrawString(new Vector2(vector.x, (float)Screen.height - vector.y), text + " [" + distanceToMonster.ToString() + "m]", Color.red, 12, true);
+                }
+                else if (vector.z >= 0f && distanceToMonster < 1000f)
                 {
                     DrawString(new Vector2(vector.x, (float)Screen.height - vector.y), text + " [" + distanceToMonster.ToString() + "m]", Color.green, 12, true);
                 }
