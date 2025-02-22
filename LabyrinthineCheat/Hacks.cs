@@ -6,8 +6,6 @@ using Il2CppValkoGames.Labyrinthine.Monsters;
 using Il2CppValkoGames.Labyrinthine.Saves;
 using Il2CppRandomGeneration.Contracts;
 using MelonLoader;
-using Il2Cpp;
-using Il2CppValkoGames.Labyrinthine.Cases.Objectives;
 using Il2CppObjectives;
 using Il2CppValkoGames.Labyrinthine.Store;
 
@@ -18,7 +16,7 @@ namespace LabyrinthineCheat
         public static void UnlockAllCosmetics()
         {
             CustomizationSave save = CustomizationSave.Load();
-            for (ushort i = 0; i < 1500; i++)
+            for (ushort i = 0; i < 750; i++)
             {
                 save.UnlockItem(i, false);
             }
@@ -148,7 +146,7 @@ namespace LabyrinthineCheat
                         Vector3 center = collider.bounds.center;
                         MelonLogger.Msg($" - Collider Center: {center}");
 
-                        safezones.Add(new Vector3(center.x, center.y + 4f, center.z));
+                        safezones.Add(new Vector3(center.x, center.y, center.z));
                     }
                     else
                     {
