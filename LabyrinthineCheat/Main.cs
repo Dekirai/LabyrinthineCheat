@@ -15,8 +15,6 @@ namespace LabyrinthineCheat
         public static bool isAIEnabled = true;
 
         public static float FlashlightMultiplier = 1f;
-        public static float DefaultFlashlightIntensity = 47.7f;
-        public static float DefaultPointFlashlightIntensity = 30f;
 
         public static int? CurrentSceneIndex;
         public static string? CurrentSceneName;
@@ -43,6 +41,8 @@ namespace LabyrinthineCheat
                 MelonLogger.Error($"Unobserved Task Exception: {e.Exception}");
                 e.SetObserved();
             };
+
+            HarmonyInstance.PatchAll(typeof(HookMethod));
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
@@ -62,6 +62,7 @@ namespace LabyrinthineCheat
             ESPEnabled = false;
             PlayerInCase = false;
             isAIEnabled = true;
+            FlashlightMultiplier = 1f;
         }
 
         public override void OnUpdate()
@@ -85,16 +86,6 @@ namespace LabyrinthineCheat
             if (ESPEnabled)
             {
                 ESP.Render();
-            }
-        }
-
-        [HarmonyPatch(typeof(CustomizationSave), "UnlockItem")]
-        public static class HookUnlockItem
-        {
-            [HarmonyPostfix]
-            public static void Postfix(ushort itemID, bool unlockOnContractFinish)
-            {
-                MelonLogger.Msg($"UnlockItem Hook: Item {itemID} unlocked. OnContractFinish: {unlockOnContractFinish}");
             }
         }
 

@@ -6,8 +6,6 @@ using Il2CppValkoGames.Labyrinthine.Monsters;
 using Il2CppValkoGames.Labyrinthine.Saves;
 using Il2CppRandomGeneration.Contracts;
 using MelonLoader;
-using Il2Cpp;
-using Il2CppValkoGames.Labyrinthine.Cases.Objectives;
 using Il2CppObjectives;
 using Il2CppValkoGames.Labyrinthine.Store;
 
@@ -18,7 +16,7 @@ namespace LabyrinthineCheat
         public static void UnlockAllCosmetics()
         {
             CustomizationSave save = CustomizationSave.Load();
-            for (ushort i = 0; i < 1500; i++)
+            for (ushort i = 0; i < 750; i++)
             {
                 save.UnlockItem(i, false);
             }
