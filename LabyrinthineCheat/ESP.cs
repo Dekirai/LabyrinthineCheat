@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Labyrinthine.Utilities;
+using MelonLoader;
 
 namespace LabyrinthineCheat
 {
@@ -9,15 +10,19 @@ namespace LabyrinthineCheat
 
         public static void Render()
         {
-            RenderMonsters();
-            RenderPlayers();
+            if (Laby.PlayerInCase)
+            {
+                RenderMonsters();
+                RenderPlayers();
+            }
         }
 
         private static void RenderPlayers()
         {
             foreach (var player in Laby.GameManager.Players)
             {
-                Drawing.TextWithDistance(player.transform, player.playerName);
+                if (player != null && player.transform != null)
+                    Drawing.TextWithDistance(player.transform, player.playerName);
             }
         }
 
@@ -25,7 +30,8 @@ namespace LabyrinthineCheat
         {
             foreach (var ai in Laby.AIControllers)
             {
-                Drawing.TextWithDistance(ai.transform, ai.monsterType.ToString());
+                if(ai != null && ai.transform != null)
+                    Drawing.TextWithDistance(ai.transform, ai.monsterType.ToString());
             }
         }
     }

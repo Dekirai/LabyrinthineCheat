@@ -15,16 +15,18 @@ namespace LabyrinthineCheat
         public static bool isAIEnabled = true;
 
         public static float FlashlightMultiplier = 1f;
+        public static float DefaultFlashlightIntensity = 47.7f;
+        public static float DefaultPointFlashlightIntensity = 30f;
 
         public static int? CurrentSceneIndex;
         public static string? CurrentSceneName;
 
         public static List<Vector3> Safezones = new List<Vector3>();
 
-        public static Camera GameCamera { get; set; }
-        public static GameManager GameManager { get; set; }
-        public static PlayerControl PlayerControl { get; set; }
-        public static AIController[] AIControllers { get; set; }
+        public static Camera? GameCamera { get; set; }
+        public static GameManager? GameManager { get; set; }
+        public static PlayerControl? PlayerControl { get; set; }
+        public static AIController[]? AIControllers { get; set; }
 
         private bool showMenu = false;
         private Menu menu = new Menu();
@@ -63,6 +65,10 @@ namespace LabyrinthineCheat
             PlayerInCase = false;
             isAIEnabled = true;
             FlashlightMultiplier = 1f;
+            AIControllers = null;
+            GameManager = null;
+            PlayerControl = null;
+            GameCamera = null;
         }
 
         public override void OnUpdate()

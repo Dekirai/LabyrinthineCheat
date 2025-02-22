@@ -30,7 +30,7 @@ namespace Labyrinthine.Utilities
             GUI.Label(new Rect(centered ? (position - vector / 2f) : position, vector), content, Drawing.StringStyle);
         }
 
-        public static void TextWithDistance(Transform target, string text, Camera relativeTo = null)
+        public static void TextWithDistance(Transform target, string text, Camera? relativeTo = null)
         {
             var camera = relativeTo ?? GameCamera;
 
