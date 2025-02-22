@@ -110,6 +110,12 @@ namespace LabyrinthineCheat
                 PlayerControl = GameObject.FindObjectOfType<PlayerControl>();
                 yield return new WaitForSeconds(0.5f);
             }
+            MelonLogger.Msg("All required game objects collected!");
+
+            PlayerInCase = true;
+
+            Safezones.AddRange(Hacks.GetAllSafezones());
+            MelonLogger.Msg($"Found {Safezones?.Count} safe zones!");
 
             while (AIControllers == null || AIControllers.Length == 0)
             {
@@ -117,12 +123,7 @@ namespace LabyrinthineCheat
                 yield return new WaitForSeconds(0.5f);
             }
 
-            MelonLogger.Msg("All required game objects collected!");
-
-            Safezones.AddRange(Hacks.GetAllSafezones());
-            MelonLogger.Msg($"Found {Safezones?.Count} safe zones!");
-
-            PlayerInCase = true;
+            MelonLogger.Msg("All optional game objects collected!");
         }
     }
 }
