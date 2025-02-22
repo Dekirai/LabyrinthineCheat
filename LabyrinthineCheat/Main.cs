@@ -1,5 +1,4 @@
-﻿using Il2CppRandomGeneration.Contracts;
-using MelonLoader;
+﻿using MelonLoader;
 using UnityEngine;
 using Il2CppCharacterCustomization;
 using HarmonyLib;
@@ -16,9 +15,6 @@ namespace LabyrinthineCheat
         private Rect windowRect = new Rect(50, 50, 300, 400);
         private Rect windowMonsterTeleportRect = new Rect(350, 50, 300, 400);
         private Rect windowPlayerTeleportRect = new Rect(650, 50, 300, 400);
-        public static bool CanRunCoRoutine = true;
-        public static bool CoRoutineIsRunning = true;
-        private static object coRoutine;
 
         public static bool ESPEnabled = false;
         public static bool isAIEnabled = true;
@@ -36,7 +32,6 @@ namespace LabyrinthineCheat
         public static GameManager GameManager { get; set; }
         public static PlayerControl PlayerControl { get; set; }
         public static AIController[] AIControllers { get; set; }
-        public static KeyPuzzle KeyPuzzle { get; set; }
 
         private string xCoords = "0";
         private string zCoords = "0";
@@ -69,17 +64,7 @@ namespace LabyrinthineCheat
 
             if (buildIndex >= 4 && buildIndex != 8)
             {
-                CanRunCoRoutine = false;
-                new Thread(() =>
-                {
-                    while (CoRoutineIsRunning)
-                    {
-                        coRoutine = MelonCoroutines.Start(CollectGameObjects());
-                        Thread.Sleep(5000);
-                    }
-                }).Start();
-
-                MelonCoroutines.Start(DelayedSafezoneCollection());
+                MelonCoroutines.Start(CollectCaseGameObjectsAndData());
             }
         }
 
@@ -328,26 +313,29 @@ namespace LabyrinthineCheat
             isAIEnabled = true;
         }
 
-        private IEnumerator CollectGameObjects()
-        {
-            GameManager = GameObject.FindObjectOfType<GameManager>();
-            yield return new WaitForSeconds(0.15f);
-
-            PlayerControl = GameObject.FindObjectOfType<PlayerControl>();
-            yield return new WaitForSeconds(0.15f);
-
-            AIControllers = GameObject.FindObjectsOfType<AIController>().ToArray();
-            yield return new WaitForSeconds(0.15f);
-
-            KeyPuzzle = GameObject.FindObjectOfType<KeyPuzzle>();
-            yield return new WaitForSeconds(0.15f);
-        }
-
-        private IEnumerator DelayedSafezoneCollection()
+        private IEnumerator CollectCaseGameObjectsAndData()
         {
             Safezones.Clear();
-            MelonLogger.Msg($"Waiting 10 seconds before getting all safezones");
-            yield return new WaitForSeconds(10f);
+
+            while (GameManager == null)
+            {
+                GameManager = GameObject.FindObjectOfType<GameManager>();
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            while (PlayerControl == null)
+            {
+                PlayerControl = GameObject.FindObjectOfType<PlayerControl>();
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            while (AIControllers == null || AIControllers.Length == 0)
+            {
+                AIControllers = GameObject.FindObjectsOfType<AIController>();
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            MelonLogger.Msg("All required game objects collected!");
 
             Safezones.AddRange(Hacks.GetAllSafezones());
             MelonLogger.Msg($"Found {Safezones?.Count} safe zones!");
