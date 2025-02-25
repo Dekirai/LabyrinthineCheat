@@ -1,7 +1,5 @@
 ﻿using MelonLoader;
 using UnityEngine;
-using Il2CppCharacterCustomization;
-using HarmonyLib;
 using Il2CppValkoGames.Labyrinthine.Monsters;
 using Il2Cpp;
 using System.Collections;
@@ -118,6 +116,8 @@ namespace LabyrinthineCheat
             Safezones.AddRange(Hacks.GetAllSafezones());
             MelonLogger.Msg($"Found {Safezones?.Count} safe zones!");
 
+            GetInfoCosmeticInCase();
+
             while (AIControllers == null || AIControllers.Length == 0)
             {
                 AIControllers = GameObject.FindObjectsOfType<AIController>();
@@ -125,6 +125,23 @@ namespace LabyrinthineCheat
             }
 
             MelonLogger.Msg("All optional game objects collected!");
+        }
+
+        private void GetInfoCosmeticInCase()
+        {
+            var pickup = Hacks.GetPickupCosmeticInCase();
+
+            if (pickup != null)
+            {
+                var pickupName = pickup.name
+                    .Replace("CPickup - ", "")
+                    .Replace("Customization Pickup - ", "")
+                    .Replace("(Clone)", "")
+                    .Replace("_", " ")
+                    .Trim();
+
+                MelonLogger.Msg($"Cosmetic in this case if any: {pickupName} with itemID {pickup.itemID}");
+            }
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using Il2CppCharacterCustomization;
 using Il2CppValkoGames.Labyrinthine.Monsters;
 using Il2CppValkoGames.Labyrinthine.Saves;
@@ -54,7 +52,7 @@ namespace LabyrinthineCheat
             {
                 try
                 {
-                    PickupCosmeticInCase();
+                    GetPickupCosmeticInCase()?.Pickup(); ;
                     foreach (var item in objectives.Objectives)
                     {
                         MelonLogger.Msg($"Found {item.Key} and {item.Value}");
@@ -73,9 +71,9 @@ namespace LabyrinthineCheat
             }
         }
 
-        public static void PickupCosmeticInCase()
+        public static CustomizationPickup GetPickupCosmeticInCase()
         {
-            GameObject.FindObjectOfType<CustomizationPickup>()?.Pickup();
+            return GameObject.FindObjectOfType<CustomizationPickup>();
         }
 
         public static void SetAllItemsCount()
@@ -144,7 +142,6 @@ namespace LabyrinthineCheat
                     if (collider != null)
                     {
                         Vector3 center = collider.bounds.center;
-                        MelonLogger.Msg($" - Collider Center: {center}");
 
                         safezones.Add(new Vector3(center.x, center.y, center.z));
                     }
