@@ -9,7 +9,6 @@ using Il2CppValkoGames.Labyrinthine.Store;
 using Il2CppBehaviorDesigner.Runtime.Tasks.Unity.Math;
 using Il2CppBehaviorDesigner.Runtime.Tasks;
 using Il2CppBehaviorDesigner.Runtime;
-using Il2CppDG.Tweening;
 namespace LabyrinthineCheat
 {
     public static class Hacks
@@ -97,20 +96,30 @@ namespace LabyrinthineCheat
         {
             Laby.isAIEnabled = !Laby.isAIEnabled;
 
-            if (Laby.isAIEnabled)
+            foreach (AIController ai in Laby.AIControllers)
             {
-                MelonLogger.Msg("Monsters have been enabled.");
-                foreach (MonsterType monsterType in Enum.GetValues(typeof(MonsterType)))
+                Collider aiCollider = ai.GetComponent<Collider>();
+                aiCollider.isTrigger = Laby.isAIEnabled;
+                aiCollider.enabled = Laby.isAIEnabled;
+
+                var behavior = ai.GetComponent<BehaviorTree>();
+                var tasks = behavior.FindTasks<Conditional>();
+
+                foreach (var task in tasks)
                 {
-                    AIManager.StartAI(monsterType);
+                    if (task.ToString() == typeof(FloatComparison).ToString())
+                        continue;
+
+                    task.disabled = !Laby.isAIEnabled;
                 }
-            }
-            else
-            {
-                MelonLogger.Msg("Monsters have been disabled.");
-                foreach (MonsterType monsterType in Enum.GetValues(typeof(MonsterType)))
+
+                if (Laby.isAIEnabled)
                 {
-                    AIManager.StopAI(monsterType);
+                    behavior.EnableBehavior();
+                }
+                else
+                {
+                    behavior.DisableBehavior();
                 }
             }
         }
