@@ -6,7 +6,10 @@ using Il2CppRandomGeneration.Contracts;
 using MelonLoader;
 using Il2CppObjectives;
 using Il2CppValkoGames.Labyrinthine.Store;
-
+using Il2CppBehaviorDesigner.Runtime.Tasks.Unity.Math;
+using Il2CppBehaviorDesigner.Runtime.Tasks;
+using Il2CppBehaviorDesigner.Runtime;
+using Il2CppDG.Tweening;
 namespace LabyrinthineCheat
 {
     public static class Hacks
@@ -55,7 +58,6 @@ namespace LabyrinthineCheat
                     GetPickupCosmeticInCase()?.Pickup(); ;
                     foreach (var item in objectives.Objectives)
                     {
-                        MelonLogger.Msg($"Found {item.Key} and {item.Value}");
                         objectives.SetObjectiveProgressL(item.Key, 100);
                         objectives.SetObjectiveProgressSync(item.Key, 100);
                     }
@@ -84,6 +86,11 @@ namespace LabyrinthineCheat
                 EquipmentSave.Save();
             }
             MelonLogger.Msg("Successfully set all items to x1000.");
+        }
+
+        public static void SelfRevive()
+        {
+            Laby.PlayerControl.playerNetworkSync.Death.CmdReviveSelf();
         }
 
         public static void ToggleMonsters()

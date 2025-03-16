@@ -67,6 +67,7 @@ namespace LabyrinthineCheat
             GameManager = null;
             PlayerControl = null;
             GameCamera = null;
+            Safezones.Clear();
         }
 
         public override void OnUpdate()
@@ -95,8 +96,6 @@ namespace LabyrinthineCheat
 
         private IEnumerator CollectCaseGameObjectsAndData()
         {
-            Safezones.Clear();
-
             while (GameManager == null)
             {
                 GameManager = GameObject.FindObjectOfType<GameManager>();

@@ -90,6 +90,9 @@ namespace LabyrinthineCheat
                 if (GUILayout.Button("Complete Case", buttonStyle))
                     Hacks.CompleteAllObjectivesInCase();
 
+                if (GUILayout.Button("Self Revive", buttonStyle))
+                    Hacks.SelfRevive();
+
                 if (GUILayout.Button(Laby.isAIEnabled ? "Disable Monsters" : "Enable Monsters", buttonStyle))
                     Hacks.ToggleMonsters();
 
@@ -130,7 +133,7 @@ namespace LabyrinthineCheat
                     var transform = ai.transform;
                     transform.position = new Vector3(
                         transform.position.x,
-                        transform.position.y,
+                        transform.position.y + 2f,
                         transform.position.z
                     );
 

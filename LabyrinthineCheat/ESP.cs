@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Labyrinthine.Utilities;
-using MelonLoader;
 
 namespace LabyrinthineCheat
 {
