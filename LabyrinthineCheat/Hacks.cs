@@ -194,7 +194,7 @@ namespace LabyrinthineCheat
             {
                 spotLight.intensity = Laby.DefaultPointFlashlightIntensity * multiplier;
             }
-            MelonLogger.Msg("Flashlight power set to: " + multiplier);
+
         }
     }
 }

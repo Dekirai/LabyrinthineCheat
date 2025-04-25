@@ -41,8 +41,6 @@ namespace LabyrinthineCheat
                 MelonLogger.Error($"Unobserved Task Exception: {e.Exception}");
                 e.SetObserved();
             };
-
-            HarmonyInstance.PatchAll(typeof(HookMethod));
         }
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
