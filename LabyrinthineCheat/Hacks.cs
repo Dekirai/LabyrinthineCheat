@@ -158,8 +158,12 @@ namespace LabyrinthineCheat
                     if (collider != null)
                     {
                         Vector3 center = collider.bounds.center;
+                        Vector3 spawnpoint = Laby.PlayerControl.playerNetworkSync.SpawnpointsManager.GetSpawnpoint(0).position;
 
-                        safezones.Add(new Vector3(center.x, center.y, center.z));
+                        if (!collider.bounds.Contains(spawnpoint))
+                        {
+                            safezones.Add(new Vector3(center.x, center.y, center.z));
+                        }
                     }
                     else
                     {
