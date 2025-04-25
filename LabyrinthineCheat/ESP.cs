@@ -13,6 +13,17 @@ namespace LabyrinthineCheat
             {
                 RenderMonsters();
                 RenderPlayers();
+                RenderSafezones();
+            }
+        }
+
+        private static void RenderSafezones()
+        {
+            int index = 1;
+            foreach (var safezone in Laby.Safezones)
+            {
+                Drawing.TextWithDistance(safezone, $"Safezone {index}");
+                index++;
             }
         }
 
@@ -21,7 +32,7 @@ namespace LabyrinthineCheat
             foreach (var player in Laby.GameManager.Players)
             {
                 if (player != null && player.transform != null)
-                    Drawing.TextWithDistance(player.transform, player.playerName);
+                    Drawing.TextWithDistance(player.transform.position, player.playerName);
             }
         }
 
@@ -30,7 +41,7 @@ namespace LabyrinthineCheat
             foreach (var ai in Laby.AIControllers)
             {
                 if(ai != null && ai.transform != null)
-                    Drawing.TextWithDistanceMonster(ai.transform, ai.monsterType.ToString().Replace("_", " "));    
+                    Drawing.TextWithDistanceMonster(ai.transform.position, ai.monsterType.ToString().Replace("_", " "));    
             }
         }
     }
