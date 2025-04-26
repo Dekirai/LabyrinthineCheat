@@ -132,13 +132,35 @@ namespace LabyrinthineCheat
 
                 GUILayout.Label("Flashlight power: " + Laby.FlashlightMultiplier.ToString("F2"), titleStyle);
 
-                float previousValue = Laby.FlashlightMultiplier;
+                float previousFlashlightValue = Laby.FlashlightMultiplier;
 
                 Laby.FlashlightMultiplier = GUILayout.HorizontalSlider(Laby.FlashlightMultiplier, 1f, 500f, sliderStyle, GUI.skin.horizontalSliderThumb);
 
-                if (Mathf.Abs(previousValue - Laby.FlashlightMultiplier) > Mathf.Epsilon)
+                if (Mathf.Abs(previousFlashlightValue - Laby.FlashlightMultiplier) > Mathf.Epsilon)
                 {
                     Hacks.SetFlashlightPower(Laby.FlashlightMultiplier);
+                }
+
+                GUILayout.Label("Movement Speed: " + Laby.MovementSpeed.ToString("F2"), titleStyle);
+
+                float previousMovementSpeedValue = Laby.MovementSpeed;
+
+                Laby.MovementSpeed = GUILayout.HorizontalSlider(Laby.MovementSpeed, 4.4f, 50f, sliderStyle, GUI.skin.horizontalSliderThumb);
+
+                if (Mathf.Abs(previousMovementSpeedValue - Laby.MovementSpeed) > Mathf.Epsilon)
+                {
+                    Hacks.SetMovementSpeed(Laby.MovementSpeed);
+                }
+
+                GUILayout.Label("Jump Height: " + Laby.JumpHeight.ToString("F2"), titleStyle);
+
+                float previousJumpHeightValue = Laby.JumpHeight;
+
+                Laby.JumpHeight = GUILayout.HorizontalSlider(Laby.JumpHeight, 1.8f, 50f, sliderStyle, GUI.skin.horizontalSliderThumb);
+
+                if (Mathf.Abs(previousJumpHeightValue - Laby.JumpHeight) > Mathf.Epsilon)
+                {
+                    Hacks.SetJumpHeight(Laby.JumpHeight);
                 }
             }
             else

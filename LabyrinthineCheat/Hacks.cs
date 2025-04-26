@@ -206,5 +206,15 @@ namespace LabyrinthineCheat
             }
 
         }
+
+        public static void SetMovementSpeed(float speed)
+        {
+            Laby.PlayerControl.CurrentPlayerControlPreset.MovementSpeed = speed;
+        }
+
+        public static void SetJumpHeight(float height)
+        {
+            Laby.PlayerControl.CurrentPlayerControlPreset.JumpHeight = height;
+        }
     }
 }

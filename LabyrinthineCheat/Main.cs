@@ -16,6 +16,9 @@ namespace LabyrinthineCheat
         public static float DefaultFlashlightIntensity = 47.7f;
         public static float DefaultPointFlashlightIntensity = 30f;
 
+        public static float JumpHeight = 1.8f;
+        public static float MovementSpeed = 4.4f;
+
         public static int? CurrentSceneIndex;
         public static string? CurrentSceneName;
 
@@ -57,6 +60,13 @@ namespace LabyrinthineCheat
         }
         public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
         {
+            MovementSpeed = 4.4f;
+            JumpHeight = 1.8f;
+            if (PlayerInCase)
+            {
+                Hacks.SetMovementSpeed(MovementSpeed);
+                Hacks.SetJumpHeight(JumpHeight);
+            }
             ESPEnabled = false;
             PlayerInCase = false;
             isAIEnabled = true;
