@@ -30,7 +30,7 @@ namespace Labyrinthine.Utilities
             GUI.Label(new Rect(centered ? (position - vector / 2f) : position, vector), content, Drawing.StringStyle);
         }
 
-        public static void TextWithDistance(Vector3 target, string text, Camera? relativeTo = null)
+        public static void TextWithDistance(Vector3 target, string text, Color color, Camera? relativeTo = null)
         {
             var camera = relativeTo ?? GameCamera;
 
@@ -41,7 +41,7 @@ namespace Labyrinthine.Utilities
                 float distanceToPlayer = (float)Math.Round((double)Vector3.Distance(Laby.PlayerControl.transform.position, target), 1);
 
                 if (vector.z >= 0f && distanceToPlayer < 1000f)
-                    DrawString(new Vector2(vector.x, (float)Screen.height - vector.y), text + " [" + distanceToPlayer.ToString() + "m]", Color.green, 12, true);
+                    DrawString(new Vector2(vector.x, (float)Screen.height - vector.y), text + " [" + distanceToPlayer.ToString() + "m]", color, 12, true);
             }
         }
 

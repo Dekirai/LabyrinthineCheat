@@ -22,7 +22,7 @@ namespace LabyrinthineCheat
             int index = 1;
             foreach (var safezone in Laby.Safezones)
             {
-                Drawing.TextWithDistance(safezone, $"Safezone {index}");
+                Drawing.TextWithDistance(safezone, $"Safezone {index}", Color.magenta);
                 index++;
             }
         }
@@ -32,7 +32,7 @@ namespace LabyrinthineCheat
             foreach (var player in Laby.GameManager.Players)
             {
                 if (player != null && player.transform != null)
-                    Drawing.TextWithDistance(player.transform.position, player.playerName);
+                    Drawing.TextWithDistance(player.transform.position, player.playerName, Color.cyan);
             }
         }
 
