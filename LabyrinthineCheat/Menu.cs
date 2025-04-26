@@ -1,4 +1,6 @@
-﻿using MelonLoader;
+﻿using Il2CppRandomGeneration.Contracts;
+using Il2CppValkoGames.Labyrinthine.Saves;
+using MelonLoader;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -17,6 +19,10 @@ namespace LabyrinthineCheat
         private string currencyInput = "100";
 
         private string experienceInput = "1000";
+
+        private bool initializeStampValues = true;
+        private string rareStampInput = "0";
+        private string hardcoreStampInput = "0";
 
         private GUIStyle? titleStyle;
         private GUIStyle? buttonStyle;
@@ -83,6 +89,29 @@ namespace LabyrinthineCheat
 
                 if (GUILayout.Button("Give Experience", buttonStyle))
                     Hacks.AddOrRemoveExperience(int.Parse(experienceInput));
+                GUILayout.EndHorizontal();
+
+                if(initializeStampValues)
+                {
+                    hardcoreStampInput = EquipmentSave.GetContractTypeTokenCount(ContractType.Hardcore).ToString();
+                    rareStampInput = EquipmentSave.GetContractTypeTokenCount(ContractType.Rare).ToString();
+                    initializeStampValues = false;
+                }
+
+                GUILayout.BeginHorizontal();
+
+                rareStampInput = NumberInput(rareStampInput);
+
+                if (GUILayout.Button("Set Rare stamps", buttonStyle))
+                    Hacks.SetRareStamps(int.Parse(rareStampInput));
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+
+                hardcoreStampInput = NumberInput(hardcoreStampInput);
+
+                if (GUILayout.Button("Set Hardcore stamps", buttonStyle))
+                    Hacks.SetHardcoreStamps(int.Parse(hardcoreStampInput));
                 GUILayout.EndHorizontal();
             }
             else if (Laby.PlayerInCase)

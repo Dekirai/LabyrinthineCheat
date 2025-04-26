@@ -136,6 +136,20 @@ namespace LabyrinthineCheat
             PlayerSave.AddExperience(value, true);
         }
 
+        public static void SetRareStamps(int value)
+        {
+            MelonLogger.Msg($"Set Rare tokens to {value}!");
+            EquipmentSave.custom_RareTokens = value;
+            EquipmentSave.Save();
+        }
+
+        public static void SetHardcoreStamps(int value)
+        {
+            MelonLogger.Msg($"Set Hardcore tokens to {value}!");
+            EquipmentSave.custom_HardcoreTokens = value;
+            EquipmentSave.Save();
+        }
+
         public static void TeleportToSpawn()
         {
             MelonLogger.Msg("Moved the player to Spawnpoint");
@@ -146,15 +160,12 @@ namespace LabyrinthineCheat
         {
             List<Vector3> safezones = new List<Vector3>();
 
-            MelonLogger.Msg("Finding safezones...");
             foreach (GameObject obj in UnityEngine.Object.FindObjectsOfType<GameObject>())
             {
                 if (obj.name.ToLower().Contains("lightzone"))
                 {
-                    MelonLogger.Warning($"Found Safezone: {obj.name}");
-                    MelonLogger.Msg($" - Position: {obj.transform.position}");
-
                     Collider collider = obj.GetComponent<Collider>();
+
                     if (collider != null)
                     {
                         Vector3 center = collider.bounds.center;
@@ -165,11 +176,6 @@ namespace LabyrinthineCheat
                             safezones.Add(new Vector3(center.x, center.y, center.z));
                         }
                     }
-                    else
-                    {
-                        MelonLogger.Warning("No collider found for this object! Can't teleport");
-                    }
-
                 }
             }
 
