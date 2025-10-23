@@ -57,7 +57,7 @@ namespace LabyrinthineCheat
 
         private void DrawMenu(int windowID)
         {
-            GUILayout.Label(" ~ Made by Dekirai & GravityMaster ~", titleStyle);
+            GUILayout.Label("~ Made by Dekirai & GravityMaster ~", titleStyle);
             GUILayout.Space(10);
 
             if (Laby.CurrentSceneIndex == 2 || Laby.CurrentSceneIndex == 8)

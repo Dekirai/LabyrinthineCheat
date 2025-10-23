@@ -6,6 +6,7 @@ namespace Labyrinthine.Utilities
 {
     internal class Drawing
     {
+        private static Camera _gameCamera;
         public static GUIStyle StringStyle { get; set; } = new GUIStyle(GUI.skin.label);
         public static Camera GameCamera
         {
@@ -18,7 +19,6 @@ namespace Labyrinthine.Utilities
                 return _gameCamera;
             }
         }
-        private static Camera _gameCamera;
 
         public static void DrawString(Vector2 position, string label, Color color, int fontSize, bool centered = true)
         {
@@ -32,16 +32,15 @@ namespace Labyrinthine.Utilities
 
         public static void TextWithDistance(Vector3 target, string text, Color color, Camera? relativeTo = null)
         {
-            var camera = relativeTo ?? GameCamera;
+            Camera camera = relativeTo ?? GameCamera;
 
-            Vector3 vector = camera.WorldToScreenPoint(target);
+            Vector3 position = camera.WorldToScreenPoint(target);
 
-            if ((vector.x < 0f || vector.x > (float)Screen.width || vector.y < 0f || vector.y > (float)Screen.height || vector.z > 0f))
+            // Only draw if within visible screen
+            if (position.z > 0 && position.x >= 0 && position.x <= Screen.width && position.y >= 0 && position.y <= Screen.height)
             {
-                float distanceToPlayer = (float)Math.Round((double)Vector3.Distance(Laby.PlayerControl.transform.position, target), 1);
-
-                if (vector.z >= 0f && distanceToPlayer < 1000f)
-                    DrawString(new Vector2(vector.x, (float)Screen.height - vector.y), text + " [" + distanceToPlayer.ToString() + "m]", color, 12, true);
+                float distanceToPlayer = Vector3.Distance(Laby.PlayerControl.transform.position, target);
+                DrawString(new Vector2(position.x, Screen.height - position.y), text + " [" + Math.Round(distanceToPlayer, 1) + "m]", color, 12, true);
             }
         }
 
@@ -51,14 +50,14 @@ namespace Labyrinthine.Utilities
 
             Vector3 vector = camera.WorldToScreenPoint(target);
 
-            if ((vector.x < 0f || vector.x > (float)Screen.width || vector.y < 0f || vector.y > (float)Screen.height || vector.z > 0f))
+            if (vector.z > 0 && vector.x >= 0 && vector.x <= Screen.width && vector.y >= 0 && vector.y <= Screen.height)
             {
-                float distanceToMonster = (float)Math.Round((double)Vector3.Distance(Laby.PlayerControl.transform.position, target), 1);
+                double distanceToMonster = Math.Round(Vector3.Distance(Laby.PlayerControl.transform.position, target), 1);
 
                 if (vector.z >= 0f && distanceToMonster < 100f)
-                    DrawString(new Vector2(vector.x, (float)Screen.height - vector.y), text + " [" + distanceToMonster.ToString() + "m]", Color.red, 12, true);
+                    DrawString(new Vector2(vector.x, Screen.height - vector.y), text + " [" + distanceToMonster + "m]", Color.red, 12, true);
                 else if (vector.z >= 0f && distanceToMonster < 1000f)
-                    DrawString(new Vector2(vector.x, (float)Screen.height - vector.y), text + " [" + distanceToMonster.ToString() + "m]", Color.green, 12, true);
+                    DrawString(new Vector2(vector.x, Screen.height - vector.y), text + " [" + distanceToMonster + "m]", Color.green, 12, true);
             }
         }
     }

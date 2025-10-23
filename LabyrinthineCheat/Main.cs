@@ -48,8 +48,6 @@ namespace LabyrinthineCheat
 
         public override void OnSceneWasLoaded(int buildIndex, string sceneName)
         {
-            LoggerInstance.Msg($"Scene {sceneName} with build index {buildIndex} has been loaded!");
-
             CurrentSceneIndex = buildIndex;
             CurrentSceneName = sceneName;
 

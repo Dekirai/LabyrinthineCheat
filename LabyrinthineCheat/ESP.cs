@@ -5,11 +5,9 @@ namespace LabyrinthineCheat
 {
     public static class ESP
     {
-        public static Camera GameCamera = Camera.main;
-
         public static void Render()
         {
-            if (Laby.PlayerInCase)
+            if (Laby.PlayerInCase && Laby.ESPEnabled)
             {
                 RenderMonsters();
                 RenderPlayers();
