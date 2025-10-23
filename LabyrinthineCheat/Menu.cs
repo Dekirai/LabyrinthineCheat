@@ -48,7 +48,7 @@ namespace LabyrinthineCheat
 
             windowRect = GUILayout.Window(0, windowRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMenu), "Labyrinthine Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
 
-            if (Laby.PlayerInCase)
+            if (Laby.PlayerInCase && Laby.PlayerControl != null)
             {
                 windowMonsterTeleportRect = GUILayout.Window(1, windowMonsterTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawMonsterTeleportMenu), "Monster Teleport Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
                 windowPlayerTeleportRect = GUILayout.Window(2, windowPlayerTeleportRect, Il2CppInterop.Runtime.DelegateSupport.ConvertDelegate<GUI.WindowFunction>(DrawPlayerTeleportMenu), "Player Teleport Menu", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));

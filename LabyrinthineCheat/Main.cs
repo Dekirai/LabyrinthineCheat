@@ -27,7 +27,7 @@ namespace LabyrinthineCheat
         public static Camera? GameCamera { get; set; }
         public static GameManager? GameManager { get; set; }
         public static PlayerControl? PlayerControl { get; set; }
-        public static AIController[]? AIControllers { get; set; }
+        public static AIController[] AIControllers { get; set; } = Array.Empty<AIController>();
 
         private bool showMenu = false;
         private Menu menu = new Menu();
