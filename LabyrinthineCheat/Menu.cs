@@ -16,6 +16,8 @@ namespace LabyrinthineCheat
         private string zCoords = "0";
         private string yCoords = "0";
 
+        private Vector3 lastPlayerPosition = Vector3.zero;
+
         private string currencyInput = "100";
 
         private string experienceInput = "1000";
@@ -181,14 +183,7 @@ namespace LabyrinthineCheat
 
                 if (GUILayout.Button(normalizedMonsterName, buttonStyle))
                 {
-                    var transform = ai.transform;
-                    transform.position = new Vector3(
-                        transform.position.x,
-                        transform.position.y + 2f,
-                        transform.position.z
-                    );
-
-                    Laby.PlayerControl.playerNetworkSync.MoveToTransform(ai.transform);
+                    Laby.PlayerControl.playerNetworkSync.MoveToPosition(new Vector3(ai.transform.position.x, ai.transform.position.y + 2f, ai.transform.position.z));
                 }
             }
 
@@ -198,6 +193,14 @@ namespace LabyrinthineCheat
         private void DrawPlayerTeleportMenu(int windowID)
         {
             Vector3 playerPosition = Laby.PlayerControl.playerNetworkSync.transform.position;
+
+            if (playerPosition != lastPlayerPosition)
+            {
+                xCoords = Mathf.RoundToInt(playerPosition.x).ToString();
+                yCoords = Mathf.RoundToInt(playerPosition.y).ToString();
+                zCoords = Mathf.RoundToInt(playerPosition.z).ToString();
+                lastPlayerPosition = playerPosition;
+            }
 
             GUILayout.Label($"Current Coords | X: {Mathf.RoundToInt(playerPosition.x)}, Y: {Mathf.RoundToInt(playerPosition.y)}, Z: {Mathf.RoundToInt(playerPosition.z)}");
             GUILayout.BeginHorizontal();
