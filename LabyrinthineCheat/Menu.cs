@@ -229,7 +229,7 @@ namespace LabyrinthineCheat
 
             foreach (var player in Laby.GameManager.Players)
             {
-                if (GUILayout.Button(player.playerName, buttonStyle))
+                if (GUILayout.Button(player.ClientData.Name, buttonStyle))
                 {
                     var transform = player.transform;
                     transform.position = new Vector3(

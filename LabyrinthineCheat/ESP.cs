@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Labyrinthine.Utilities;
+﻿using Labyrinthine.Utilities;
+using UnityEngine;
 
 namespace LabyrinthineCheat
 {
@@ -32,7 +32,7 @@ namespace LabyrinthineCheat
             foreach (var player in Laby.GameManager.Players)
             {
                 if (player != null && player.transform != null)
-                    Drawing.TextWithDistance(player.transform.position, player.playerName, Color.cyan);
+                    Drawing.TextWithDistance(player.transform.position, player.ClientData.Name, Color.cyan);
             }
         }
 
