@@ -1,12 +1,14 @@
-﻿using Il2CppRandomGeneration.Contracts;
+﻿using Il2Cpp;
+using Il2CppRandomGeneration.Contracts;
 using Il2CppValkoGames.Labyrinthine.Saves;
 using MelonLoader;
+using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace LabyrinthineCheat
 {
-    public class Menu
+    public class Menu : MelonMod
     {
         private Rect windowRect = new Rect(50, 50, 300, 400);
         private Rect windowMonsterTeleportRect = new Rect(350, 50, 300, 400);
@@ -183,6 +185,7 @@ namespace LabyrinthineCheat
 
                 if (GUILayout.Button(normalizedMonsterName, buttonStyle))
                 {
+                    MelonCoroutines.Start(StartInvincibleAfterTeleport());
                     Laby.PlayerControl.playerNetworkSync.MoveToPosition(new Vector3(ai.transform.position.x, ai.transform.position.y + 2f, ai.transform.position.z));
                 }
             }
@@ -214,6 +217,7 @@ namespace LabyrinthineCheat
             {
                 try
                 {
+                    MelonCoroutines.Start(StartInvincibleAfterTeleport());
                     Laby.PlayerControl.playerNetworkSync
                         .MoveToPosition(new Vector3(int.Parse(xCoords), int.Parse(yCoords), int.Parse(zCoords)));
                 }
@@ -234,14 +238,8 @@ namespace LabyrinthineCheat
             {
                 if (GUILayout.Button(player.ClientData.Name, buttonStyle))
                 {
-                    var transform = player.transform;
-                    transform.position = new Vector3(
-                        transform.position.x,
-                        transform.position.y,
-                        transform.position.z
-                    );
-
-                    Laby.PlayerControl.playerNetworkSync.MoveToTransform(player.transform);
+                    MelonCoroutines.Start(StartInvincibleAfterTeleport());
+                    Laby.PlayerControl.playerNetworkSync.MoveToPosition(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z));
                 }
             }
 
@@ -273,5 +271,14 @@ namespace LabyrinthineCheat
         }
 
         private string NumberInput(string input) => Regex.Replace(GUILayout.TextField(input, 25), @"(?!^-)[^0-9]", "");
+
+        private IEnumerator StartInvincibleAfterTeleport()
+        {
+            MelonLogger.Msg($"You're invincible for {5f} seconds before monsters can hunt you");
+            Laby.PlayerControl.playerNetworkSync.SafezoneType = SafezoneType.Lightzone;
+            yield return new WaitForSeconds(5f);
+
+            Laby.PlayerControl.playerNetworkSync.SafezoneType = SafezoneType.None;
+        }
     }
 }
