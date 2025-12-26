@@ -16,7 +16,7 @@ namespace LabyrinthineCheat
         public static void UnlockAllCosmetics()
         {
             CustomizationSave save = CustomizationSave.Load();
-            for (ushort i = 0; i < 750; i++)
+            for (ushort i = 0; i < 1000; i++)
             {
                 save.UnlockItem(i, false);
             }
